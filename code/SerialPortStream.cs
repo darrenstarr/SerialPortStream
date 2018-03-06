@@ -895,8 +895,7 @@ namespace RJCP.IO.Ports
             TimerExpiry te = new TimerExpiry(m_ReadTimeout);
             bool dataAvailable = false;
             do {
-                string line;
-                if (m_ReadTo.ReadTo(m_Buffer, text, out line)) return line;
+                if (m_ReadTo.ReadTo(m_Buffer, text, out string line)) return line;
                 dataAvailable =
                     m_NativeSerial.IsRunning &&
                     m_ReadTo.ReadToWaitForNewData(m_Buffer, te.RemainingTime());
@@ -1794,10 +1793,7 @@ namespace RJCP.IO.Ports
         /// <param name="args">The <see cref="SerialDataReceivedEventArgs"/> instance containing the event data.</param>
         protected virtual void OnDataReceived(object sender, SerialDataReceivedEventArgs args)
         {
-            EventHandler<SerialDataReceivedEventArgs> handler = DataReceived;
-            if (handler != null) {
-                handler(sender, args);
-            }
+            DataReceived?.Invoke(sender, args);
         }
 
         /// <summary>
@@ -1812,10 +1808,7 @@ namespace RJCP.IO.Ports
         /// <param name="args">The <see cref="SerialErrorReceivedEventArgs"/> instance containing the event data.</param>
         protected virtual void OnCommError(object sender, SerialErrorReceivedEventArgs args)
         {
-            EventHandler<SerialErrorReceivedEventArgs> handler = ErrorReceived;
-            if (handler != null) {
-                handler(sender, args);
-            }
+            ErrorReceived?.Invoke(sender, args);
         }
 
         /// <summary>
@@ -1830,10 +1823,7 @@ namespace RJCP.IO.Ports
         /// <param name="args">The <see cref="SerialPinChangedEventArgs"/> instance containing the event data.</param>
         protected virtual void OnPinChanged(object sender, SerialPinChangedEventArgs args)
         {
-            EventHandler<SerialPinChangedEventArgs> handler = PinChanged;
-            if (handler != null) {
-                handler(sender, args);
-            }
+            PinChanged?.Invoke(sender, args);
         }
 
         private void NativeSerial_DataReceived(object sender, SerialDataReceivedEventArgs e)
