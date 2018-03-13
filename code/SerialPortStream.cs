@@ -296,7 +296,7 @@ namespace RJCP.IO.Ports
 #if !NETSTANDARD15
         public new void Close()
 #else
-        public void Close()
+        public new void Close()
 #endif
         {
             lock (m_CloseLock) {
